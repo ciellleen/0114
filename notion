@@ -1,0 +1,220 @@
+# 문제 1
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/ebb195e7-82de-4075-8212-954b067132e4/image.png)
+
+### 코드
+
+```jsx
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+// 학생 정보를 저장할 구조체 정의
+typedef struct {
+    int id;
+    double height;
+    double weight;
+} Student;
+
+int main() {
+    int N;
+    double totalHeight = 0, totalWeight = 0;
+
+    // 학생 수 입력
+    printf("학생 수를 입력하세요: ");
+    if (scanf("%d", &N) != 1 || N <= 0) {
+        printf("잘못된 입력입니다.\n");
+        return 1;
+    }
+
+    // 학생 배열 동적 할당
+    Student* students = (Student*)malloc(N * sizeof(Student));
+    if (students == NULL) {
+        printf("메모리 할당 실패\n");
+        return 1;
+    }
+
+    // 학생 정보 입력 및 평균 계산
+    for (int i = 0; i < N; i++) {
+        printf("학생 %d의 ID, 키, 몸무게를 입력하세요: ", i + 1);
+        if (scanf("%d %lf %lf", &students[i].id, &students[i].height, &students[i].weight) != 3 ||
+            students[i].height <= 0 || students[i].weight <= 0) {
+            printf("잘못된 입력입니다.\n");
+            free(students);
+            return 1;
+        }
+        totalHeight += students[i].height;
+        totalWeight += students[i].weight;
+    }
+
+    printf("\n");
+
+    // 평균 키와 평균 몸무게 계산
+    double avgHeight = totalHeight / N;
+    double avgWeight = totalWeight / N;
+   
+    // 평균 출력
+    printf("평균 키: %.1lf, 평균 몸무게: %.1lf\n", avgHeight, avgWeight);
+
+    // 각 학생의 키와 몸무게를 비교하여 결과 출력
+    for (int i = 0; i < N; i++) {
+        printf("학생 %d: ", students[i].id);
+        if (students[i].height >= avgHeight && students[i].weight >= avgWeight) {
+            printf("super\n");
+        }
+        else if (students[i].height >= avgHeight || students[i].weight >= avgWeight) {
+            printf("average\n");
+        }
+        else {
+            printf("below\n");
+        }
+    }
+
+    // 메모리 해제
+    free(students);
+    return 0;
+}
+
+```
+
+### 결과
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/b53af8ab-3ece-4051-8bb4-8c061e57453f/image.png)
+
+# 문제 2
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/5817197e-fc7a-4422-90c7-c6eb7a4076f6/image.png)
+
+### 코드
+
+```jsx
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char name[5];     // kim, lee, park 등 짧은 이름만 들어옴
+    char like1[5];    // 마찬가지로 짧은 이름들
+    char like2[5];
+    char like3[5];
+} STUDENT;
+
+int ABC(STUDENT stu[], char* perA, char* perB) {
+    for (int i = 0; i < 3; i++) {
+        if (strcmp(stu[i].name, perA) == 0) {
+            if (strcmp(stu[i].like1, perB) == 0 ||
+                strcmp(stu[i].like2, perB) == 0 ||
+                strcmp(stu[i].like3, perB) == 0) {
+                return 1;
+            }
+            return 0;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    STUDENT stu[3];
+    char arrow[5];
+
+    for (int i = 0; i < 3; i++) {
+        scanf("%s %s %s %s %s",
+            stu[i].name, arrow,
+            stu[i].like1, stu[i].like2, stu[i].like3);
+    }
+    printf("\n");
+
+    for (int i = 0; i < 3; i++) {
+        if (ABC(stu, stu[i].like1, stu[i].name)) printf("%s %s\n", stu[i].name, stu[i].like1);
+        if (ABC(stu, stu[i].like2, stu[i].name)) printf("%s %s\n", stu[i].name, stu[i].like2);
+        if (ABC(stu, stu[i].like3, stu[i].name)) printf("%s %s\n", stu[i].name, stu[i].like3);
+    }
+
+    return 0;
+}
+```
+
+### 결과
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/985e0a45-4c6b-4c8d-bdd9-0b38c854e3d1/image.png)
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/08213dfe-6096-4a90-b54e-5e183282a883/image.png)
+
+# 문제 3
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/a9707911-624e-4cca-af1d-09bb6c149f79/image.png)
+
+### 코드
+
+```jsx
+#include <stdio.h>
+
+typedef struct {
+    int car;
+    int num;
+    char date1[12];
+    char time1[6];
+    char date2[12];
+    char time2[6];
+} Data;
+
+int main() {
+    int n;
+    Data a[100];
+    
+    scanf("%d", &n);
+    for(int i=0; i<n; i++) {
+        scanf("%d %d %s %s %s %s", 
+            &a[i].car, 
+            &a[i].num, 
+            a[i].date1, 
+            a[i].time1, 
+            a[i].date2, 
+            a[i].time2);
+    }
+    
+    int ans[100], cnt=0;
+    
+    // 중복 찾기
+    for(int i=0; i<n; i++) {
+        int dup = 0;
+        // 이미 저장된 번호인지 확인
+        for(int k=0; k<cnt; k++) {
+            if(ans[k] == a[i].num) {
+                dup = 1;
+                break;
+            }
+        }
+        if(dup) continue;
+        
+        // 2번 이상 나온 번호 찾기
+        int count = 0;
+        for(int j=0; j<n; j++) {
+            if(a[i].num == a[j].num) count++;
+        }
+        if(count >= 2) ans[cnt++] = a[i].num;
+    }
+    
+    // 정렬
+    for(int i=0; i<cnt-1; i++) {
+        for(int j=0; j<cnt-1-i; j++) {
+            if(ans[j] > ans[j+1]) {
+                int temp = ans[j];
+                ans[j] = ans[j+1];
+                ans[j+1] = temp;
+            }
+        }
+    }
+    
+    // 출력
+    for(int i=0; i<cnt; i++) {
+        printf("%d\n", ans[i]);
+    }
+    
+    return 0;
+}
+```
+
+### 실행 결과
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/aea4747c-0ab9-40b1-83b7-e06e760a9cb5/image.png)
